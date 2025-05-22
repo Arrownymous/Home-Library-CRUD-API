@@ -20,91 +20,91 @@ MongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
   // Home route
 app.get('/', (req, res) => {
-  res.send('Welcome to the Node.js CRUD app with MongoDB!');
+  res.send('Welcome to the Book Library API!');
 });
 
-// Create a user (POST)
-app.post('/users', (req, res) => {
-  const user = req.body;  // User data in JSON format
-  const collection = db.collection('users');  // Accessing the 'users' collection
+// Create a book (POST)
+app.post('/books', (req, res) => {
+  const book = req.body;  // Book data in JSON format
+  const collection = db.collection('books');  // Accessing the 'books' collection
 
-  collection.insertOne(user)
+  collection.insertOne(book)
     .then(result => {
-      res.status(201).send(`User added: ${result.insertedId}`);
+      res.status(201).send(`Book added: ${result.insertedId}`);
     })
     .catch(err => {
-      res.status(500).send('An error occurred');
+      res.status(500).send('An error occurred while adding the book');
     });
 });
 
-// Get all users (GET)
-app.get('/users', (req, res) => {
-  const collection = db.collection('users');
+// Get all books (GET)
+app.get('/books', (req, res) => {
+  const collection = db.collection('books');
 
   collection.find().toArray()
-    .then(users => {
-      res.json(users);  // Sending users as JSON
+    .then(books => {
+      res.json(books);  // Sending books as JSON
     })
     .catch(err => {
-      res.status(500).send('An error occurred');
+      res.status(500).send('An error occurred while retrieving books');
     });
 });
 
-// Get a user by id (GET)
-app.get('/users/:id', (req, res) => {
-  const { id } = req.params;  // Getting the user ID from params
-  const collection = db.collection('users');
+// Get a book by id (GET)
+app.get('/books/:id', (req, res) => {
+  const { id } = req.params;  // Getting the book ID from params
+  const collection = db.collection('books');
 
   collection.findOne({ _id: new ObjectId(id) })
-    .then(user => {
-      if (!user) {
-        res.status(404).send('User not found');
+    .then(book => {
+      if (!book) {
+        res.status(404).send('Book not found');
         return;
       }
-      res.json(user);  // Sending the user as JSONnd
+      res.json(book);  // Sending the book as JSONnd
     })
     .catch(err => {
-      res.status(500).send('An error occurred');
+      res.status(500).send('An error occurred while retrieving books');
     });
 });
 
-// Update a user (PUT)
-app.put('/users/:id', (req, res) => {
+// Update a book (PUT)
+app.put('/books/:id', (req, res) => {
   const { id } = req.params;
-  const updatedUser = req.body;  // Updated user data
-  const collection = db.collection('users');
+  const updatedBook = req.body;  // Updated book data
+  const collection = db.collection('books');
 
   collection.updateOne(
-    { _id: new ObjectId(id) },  // Finding the user by ID
-    { $set: updatedUser }  // Updating the user
+    { _id: new ObjectId(id) },  // Finding the book by ID
+    { $set: updatedBook }  // Updating the book
   )
     .then(result => {
       if (result.matchedCount === 0) {
-        res.status(404).send('User not found');
+        res.status(404).send('Book not found');
         return;
       }
-      res.send(`User updated: ${id}`);
+      res.send(`Book updated: ${id}`);
     })
     .catch(err => {
-      res.status(500).send('An error occurred');
+      res.status(500).send('An error occurred while updating the book');
     });
 });
 
-// Delete a user (DELETE)
-app.delete('/users/:id', (req, res) => {
+// Delete a book (DELETE)
+app.delete('/books/:id', (req, res) => {
   const { id } = req.params;
-  const collection = db.collection('users');
+  const collection = db.collection('books');
 
   collection.deleteOne({ _id: new ObjectId(id) })
     .then(result => {
       if (result.deletedCount === 0) {
-        res.status(404).send('User not found');
+        res.status(404).send('Book not found');
         return;
       }
-      res.send(`User deleted: ${id}`);
+      res.send(`Book deleted: ${id}`);
     })
     .catch(err => {
-      res.status(500).send('An error occurred');
+      res.status(500).send('An error occurred while deleting the book');
     });
 });
 
