@@ -18,7 +18,7 @@ A simple REST API for managing a personal digital book collection. Users can add
 
 ```bash
 git clone https://github.com/arrownymous/home-library-crud-api.git
-cd home-library-api
+cd home-library-crud-api
 ```
 
 ### 2. Install dependencies
