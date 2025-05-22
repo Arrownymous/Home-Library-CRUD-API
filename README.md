@@ -100,7 +100,7 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 - Notes per book
 - Favorite or wishlist system
 - Search & filter functionality
-- Frontend interface
+- Frontend interface (in progress...)
 
 ---
 
