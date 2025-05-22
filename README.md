@@ -70,7 +70,7 @@ You can test all endpoints using Postman:
 {
   "title": "The Hobbit",
   "author": "J.R.R. Tolkien",
-  "year": 1937,
+  "year": "1937",
   "genre": "Fantasy"
 }
 ```
