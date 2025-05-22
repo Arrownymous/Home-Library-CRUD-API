@@ -17,7 +17,7 @@ A simple REST API for managing a personal digital book collection. Users can add
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/jouwgebruikersnaam/home-library-api.git
+git clone https://github.com/arrownymous/home-library-api.git
 cd home-library-api
 ```
 
