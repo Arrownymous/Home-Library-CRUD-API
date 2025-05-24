@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #213547; /* donkere tekstkleur voor licht thema */
+  background-color: #ffffff; /* witte achtergrond */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,10 +24,12 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  /* Geen flex meer zodat content bovenaan staat */
+  display: block;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #ffffff; /* witte achtergrond */
+  color: #213547; /* tekstkleur consistent */
 }
 
 h1 {
@@ -42,9 +44,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #f9f9f9;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #213547;
 }
 button:hover {
   border-color: #646cff;
@@ -54,15 +57,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* Donkere modus - optioneel, als je die wilt behouden */
+@media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+  }
+  body {
+    background-color: #242424;
+    color: rgba(255, 255, 255, 0.87);
+  }
+  button {
+    background-color: #1a1a1a;
+    color: rgba(255, 255, 255, 0.87);
   }
   a:hover {
     color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
   }
 }
