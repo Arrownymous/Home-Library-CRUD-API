@@ -1,71 +1,191 @@
-/* Container: max breedte + padding + font */
-.app-container {
-  max-width: 900px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-}
-
-/* Titel gecentreerd en met zachte kleur */
-.app-title {
-  text-align: center;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  color: #1a202c;
-}
-
-/* Grid container voor boeken */
-.book-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  padding: 0;
-  list-style: none;
-}
-
-/* Boek item styling */
-.book-item {
-  background-color: #f7fafc;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgb(160 174 192 / 0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: default;
-}
-
-.book-item:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgb(160 174 192 / 0.6);
-}
-
-/* Boek titel */
-.book-title {
-  margin: 0 0 0.5rem 0;
-  font-weight: 700;
-  font-size: 1.3rem;
-  color: #2d3748;
-}
-
-/* Auteur subtitel */
-.book-author {
-  margin: 0;
-  font-style: italic;
-  color: #4a5568;
-  font-size: 1rem;
-}
-
-/* Centraal uitgelijnde tekst voor loading/errors */
-.center-text {
-  text-align: center;
-  color: #718096;
-  font-size: 1.1rem;
-  margin-top: 2rem;
-}
-
-.error-text {
-  color: #e53e3e;
-  text-align: center;
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #6D5849;
+  color: #F4EFEA;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-family: 'Georgia', serif;
   font-weight: 600;
-  margin-top: 2rem;
+  font-size: 1.5rem;
+  user-select: none;
+}
+
+.add-book-btn {
+  font-size: 1.8rem;
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #F4EFEA;
+  font-weight: bold;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.add-book-btn:hover {
+  color: #A67C52;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0,0,0,0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal form */
+.modal-form {
+  background-color: #FAF9F6;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(106, 90, 61, 0.3);
+  font-family: 'Georgia', serif;
+  color: #333333;
+  position: relative;
+}
+
+/* Close button */
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #6D5849;
+  padding: 0;
+  line-height: 1;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+  color: #A67C52;
+}
+
+/* Form labels and inputs */
+.modal-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border-radius: 4px;
+  border: 1px solid #D8D2C4;
+  font-size: 1rem;
+  font-family: 'Georgia', serif;
+  box-sizing: border-box;
+  color: #333333;
+  transition: border-color 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #A67C52;
+}
+
+/* Textarea resize */
+.textarea-field {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background-color: #6D5849;
+  color: #F4EFEA;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: 'Georgia', serif;
+}
+
+.submit-btn:hover {
+  background-color: #A67C52;
+}
+
+/* Message */
+.message {
+  margin-top: 1rem;
+  color: #A67C52;
+  font-weight: 600;
+  font-family: 'Georgia', serif;
+}
+
+/* Books container */
+.books-container {
+  max-width: 700px;
+  margin: 2rem auto;
+  font-family: 'Georgia', serif;
+  color: #333333;
+  background-color: #FAF9F6;
+  padding: 0 1rem;
+}
+
+/* No books message */
+.no-books-msg {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+  font-family: 'Georgia', serif;
+}
+
+/* Book card */
+.book-card {
+  border: 1px solid #D8D2C4;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(166, 124, 82, 0.15);
+  background-color: #FFFFFF;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.book-card:hover {
+  box-shadow: 0 6px 20px rgba(166, 124, 82, 0.35);
+  transform: translateY(-4px);
+}
+
+.book-card h2 {
+  margin: 0 0 0.3rem 0;
+  font-weight: 700;
+  color: #6D5849;
+}
+
+.book-author {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: #8B7D6B;
+}
+
+.book-description {
+  margin: 0;
+  white-space: pre-wrap;
+  color: #555;
 }

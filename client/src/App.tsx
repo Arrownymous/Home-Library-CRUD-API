@@ -1,54 +1,153 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
-type Book = {
-  _id: string;
+interface Book {
+  _id?: string;
   title: string;
   author: string;
-};
+  description: string;
+}
 
 function App() {
   const [books, setBooks] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [showForm, setShowForm] = useState(false);
+
+  // Form fields
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [description, setDescription] = useState('');
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:3000/books')
-      .then((res) => {
-        if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then((data) => {
-        setBooks(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+    fetchBooks();
   }, []);
 
-  if (loading) return <p className="center-text">Loading books...</p>;
-  if (error) return <p className="error-text">Error: {error}</p>;
+  const fetchBooks = () => {
+    fetch('http://localhost:3000/books')
+      .then(res => res.json())
+      .then(data => setBooks(data))
+      .catch(console.error);
+  };
+
+  const addBook = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!title.trim() || !author.trim()) {
+      setMessage('Titel en auteur zijn verplicht.');
+      return;
+    }
+
+    const newBook = { title: title.trim(), author: author.trim(), description: description.trim() };
+
+    try {
+      const res = await fetch('http://localhost:3000/books', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newBook),
+      });
+
+      if (res.ok) {
+        setMessage('Boek toegevoegd!');
+        fetchBooks();
+        setShowForm(false);
+        setTitle('');
+        setAuthor('');
+        setDescription('');
+      } else {
+        setMessage('Fout bij toevoegen boek.');
+      }
+    } catch (error) {
+      setMessage('Error: ' + error);
+    }
+  };
 
   return (
-    <div className="app-container top-align">
-      <h1 className="app-title">Boekenlijst 📚</h1>
+    <>
+      {/* Menu bar */}
+      <header className="app-header">
+        <div className="app-title">Boekenbibliotheek</div>
+        <button
+          onClick={() => setShowForm(true)}
+          aria-label="Nieuw boek toevoegen"
+          className="add-book-btn"
+        >
+          +
+        </button>
+      </header>
 
-      {books.length === 0 ? (
-        <p className="center-text">Geen boeken gevonden.</p>
-      ) : (
-        <ul className="book-list">
-          {books.map((book) => (
-            <li key={book._id} className="book-item">
-              <h2 className="book-title">{book.title}</h2>
-              <p className="book-author">door {book.author}</p>
-            </li>
-          ))}
-        </ul>
+      {/* Modal form */}
+      {showForm && (
+        <div className="modal-backdrop">
+          <form onSubmit={addBook} className="modal-form">
+            <button
+              type="button"
+              onClick={() => setShowForm(false)}
+              className="modal-close-btn"
+              aria-label="Sluit formulier"
+            >
+              ×
+            </button>
+
+            <h2>Nieuw boek toevoegen</h2>
+
+            <label>
+              Titel:
+              <input
+                type="text"
+                value={title}
+                onChange={e => setTitle(e.target.value)}
+                required
+                className="input-field"
+              />
+            </label>
+
+            <label>
+              Auteur:
+              <input
+                type="text"
+                value={author}
+                onChange={e => setAuthor(e.target.value)}
+                required
+                className="input-field"
+              />
+            </label>
+
+            <label>
+              Beschrijving:
+              <textarea
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                rows={4}
+                className="input-field textarea-field"
+              />
+            </label>
+
+            <button type="submit" className="submit-btn">
+              Voeg toe
+            </button>
+
+            {message && <p className="message">{message}</p>}
+          </form>
+        </div>
       )}
-    </div>
+
+      {/* Books list centered */}
+      <main className="books-container">
+        {books.length === 0 && (
+          <p className="no-books-msg">Geen boeken gevonden.</p>
+        )}
+
+        {books.map(book => (
+          <div key={book._id} className="book-card">
+            <h2>{book.title}</h2>
+            <p className="book-author">Auteur: {book.author}</p>
+            <p className="book-description">{book.description}</p>
+          </div>
+        ))}
+      </main>
+    </>
   );
 }
 
 export default App;
+
