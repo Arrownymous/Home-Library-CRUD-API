@@ -1,7 +1,9 @@
 const express = require('express');
+const cors = require('cors');
 const {MongoClient, ObjectId} = require('mongodb');
 
 const app = express();
+app.use(cors());
 app.use(express.json());  // For parsing JSON data
 
 const uri = "mongodb://localhost:27017";  // MongoDB connection string
